@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>California Appraisal Instrument</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+  :root{
+    --ink:#0E2A47;
+    --ink-deep:#081A2E;
+    --paper:#EFEBDE;
+    --grid-line: rgba(220,230,240,0.14);
+    --grid-line-strong: rgba(220,230,240,0.28);
+    --brass:#C89B3C;
+    --brass-bright:#E3B94F;
+    --stamp:#B3432B;
+    --text-on-ink:#DCE6F0;
+    --text-dim: rgba(220,230,240,0.6);
+  }
+
+  *{ box-sizing:border-box; }
+
+  body{
+    margin:0;
+    background:var(--ink);
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 28px 28px;
+    color:var(--text-on-ink);
+    font-family:'Inter', sans-serif;
+    min-height:100vh;
+    padding:0;
+  }
+
+  .sheet{
+    max-width:1180px;
+    margin:0 auto;
+    padding:36px 28px 60px;
+  }
+
+  /* --- Header / title block, like a drawing's title block --- */
+  .titleblock{
+    border:1px solid var(--grid-line-strong);
+    border-bottom:2px solid var(--brass);
+    padding:18px 24px;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-bottom:26px;
+  }
+  .titleblock h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:clamp(22px, 3vw, 32px);
+    letter-spacing:0.01em;
+    margin:0 0 4px;
+    color:var(--paper);
+  }
+  .titleblock .sub{
+    font-size:13px;
+    color:var(--text-dim);
+    letter-spacing:0.03em;
+  }
+  .titleblock .meta{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--brass-bright);
+    text-align:right;
+    line-height:1.6;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+  }
+
+  .grid-layout{
+    display:grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap:24px;
+  }
+  @media (max-width: 860px){
+    .grid-layout{ grid-template-columns: 1fr; }
+  }
+
+  .panel{
+    border:1px solid var(--grid-line-strong);
+    background: rgba(8,26,46,0.35);
+    padding:22px 22px 24px;
+  }
+  .panel-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.12em;
+    color:var(--brass);
+    margin:0 0 18px;
+    padding-bottom:10px;
+    border-bottom:1px solid var(--grid-line-strong);
+  }
+
+  /* --- Form controls --- */
+  .field{ margin-bottom:20px; }
+  .field:last-child{ margin-bottom:0; }
+  .field-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom:8px;
+  }
+  .field-head label{
+    font-size:13.5px;
+    color:var(--text-on-ink);
+    font-weight:500;
+  }
+  .field-head .readout{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color:var(--brass-bright);
+  }
+
+  input[type="range"]{
+    -webkit-appearance:none;
+    width:100%;
+    height:2px;
+    background:var(--grid-line-strong);
+    outline:none;
+    margin:0;
+  }
+  input[type="range"]::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    width:14px; height:14px;
+    border-radius:50%;
+    background:var(--brass-bright);
+    border:2px solid var(--ink-deep);
+    cursor:pointer;
+    margin-top:0;
+    box-shadow:0 0 0 3px rgba(227,185,79,0.15);
+  }
+  input[type="range"]::-moz-range-thumb{
+    width:14px; height:14px;
+    border-radius:50%;
+    background:var(--brass-bright);
+    border:2px solid var(--ink-deep);
+    cursor:pointer;
+    box-shadow:0 0 0 3px rgba(227,185,79,0.15);
+  }
+
+  select{
+    width:100%;
+    background:var(--ink-deep);
+    color:var(--text-on-ink);
+    border:1px solid var(--grid-line-strong);
+    padding:10px 12px;
+    font-family:'Inter', sans-serif;
+    font-size:13.5px;
+    cursor:pointer;
+  }
+  select:focus, input[type="range"]:focus{
+    outline: 1px solid var(--brass-bright);
+    outline-offset: 3px;
+  }
+
+  .hint{
+    font-size:11.5px;
+    color:var(--text-dim);
+    margin-top:4px;
+  }
+
+  /* --- Dial / gauge, the signature element --- */
+  .dial-wrap{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding-top:6px;
+  }
+  .dial-figure{ position:relative; width:100%; max-width:340px; }
+  .price-value{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:clamp(30px, 6vw, 40px);
+    color:var(--paper);
+    text-align:center;
+    margin-top:6px;
+    letter-spacing:0.01em;
+  }
+  .price-caption{
+    text-align:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    color:var(--text-dim);
+    text-transform:uppercase;
+    letter-spacing:0.1em;
+    margin-top:2px;
+  }
+  .needle{
+    transform-origin: 170px 170px;
+    transition: transform 0.35s cubic-bezier(.4,0,.2,1);
+  }
+
+  .stamp{
+    position:absolute;
+    top:8px; right:2px;
+    border:1.5px solid var(--stamp);
+    color:var(--stamp);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:9.5px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    padding:4px 7px;
+    transform:rotate(6deg);
+    opacity:0.85;
+  }
+
+  .divider-note{
+    margin-top:22px;
+    padding-top:16px;
+    border-top:1px dashed var(--grid-line-strong);
+  }
+  .divider-note .row{
+    display:flex;
+    justify-content:space-between;
+    font-size:12px;
+    color:var(--text-dim);
+    padding:3px 0;
+    font-family:'IBM Plex Mono', monospace;
+  }
+  .divider-note .row span:last-child{ color:var(--text-on-ink); }
+
+  .footnote{
+    margin-top:24px;
+    font-size:12px;
+    color:var(--text-dim);
+    line-height:1.6;
+    border-left:2px solid var(--brass);
+    padding-left:14px;
+  }
+  .footnote b{ color:var(--brass-bright); font-weight:600; }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="titleblock">
+    <div>
+      <h1>California Appraisal Instrument</h1>
+      <div class="sub">A survey-style estimator, calibrated on 20,433 block-group records from the 1990 census</div>
+    </div>
+    <div class="meta">
+      Model — Linear Regression<br>
+      Fit — R² 0.649 · MAE $50,413
+    </div>
+  </div>
+
+  <div class="grid-layout">
+
+    <!-- LEFT: inputs -->
+    <div class="panel">
+      <p class="panel-label">Block-group parameters</p>
+
+      <div class="field">
+        <div class="field-head">
+          <label for="location">Location</label>
+        </div>
+        <select id="location">
+          <option value="sf">San Francisco — near bay</option>
+          <option value="la" selected>Los Angeles — under 1hr from ocean</option>
+          <option value="sd">San Diego — near ocean</option>
+          <option value="sac">Sacramento — inland</option>
+          <option value="fresno">Fresno — inland</option>
+          <option value="catalina">Catalina Island — island</option>
+        </select>
+        <div class="hint">Sets latitude, longitude and coastal category together</div>
+      </div>
+
+      <div class="field">
+        <div class="field-head"><label for="income">Median household income</label><span class="readout" id="income-val">$38,700 / yr</span></div>
+        <input type="range" id="income" min="5000" max="150000" step="500" value="38700">
+      </div>
+
+      <div class="field">
+        <div class="field-head"><label for="age">Median house age</label><span class="readout" id="age-val">28 yrs</span></div>
+        <input type="range" id="age" min="1" max="52" step="1" value="28">
+      </div>
+
+      <div class="field">
+        <div class="field-head"><label for="households">Households in block group</label><span class="readout" id="households-val">499</span></div>
+        <input type="range" id="households" min="1" max="2000" step="1" value="499">
+      </div>
+
+      <div class="field">
+        <div class="field-head"><label for="rooms">Average rooms per household</label><span class="readout" id="rooms-val">5.3</span></div>
+        <input type="range" id="rooms" min="1" max="12" step="0.1" value="5.3">
+      </div>
+
+      <div class="field">
+        <div class="field-head"><label for="bedrooms">Average bedrooms per household</label><span class="readout" id="bedrooms-val">1.1</span></div>
+        <input type="range" id="bedrooms" min="0.5" max="5" step="0.05" value="1.1">
+      </div>
+
+      <div class="field">
+        <div class="field-head"><label for="population">Population in block group</label><span class="readout" id="population-val">1,425</span></div>
+        <input type="range" id="population" min="3" max="6000" step="1" value="1425">
+      </div>
+    </div>
+
+    <!-- RIGHT: dial output -->
+    <div class="panel">
+      <p class="panel-label">Estimated median value</p>
+      <div class="dial-wrap">
+        <div class="dial-figure">
+          <div class="stamp">Est.</div>
+          <svg viewBox="0 0 340 200" width="100%">
+            <!-- tick arc -->
+            <path d="M 30 170 A 140 140 0 0 1 310 170" fill="none" stroke="rgba(220,230,240,0.28)" stroke-width="1.5"/>
+            <g id="ticks"></g>
+            <!-- needle -->
+            <g class="needle" id="needle">
+              <line x1="170" y1="170" x2="170" y2="55" stroke="#E3B94F" stroke-width="2.5"/>
+              <circle cx="170" cy="170" r="6" fill="#E3B94F" stroke="#081A2E" stroke-width="2"/>
+            </g>
+          </svg>
+        </div>
+        <div class="price-value" id="price-out">$—</div>
+        <div class="price-caption">Predicted median house value</div>
+      </div>
+
+      <div class="divider-note">
+        <div class="row"><span>Prediction interval (± MAE)</span><span id="interval-out">—</span></div>
+        <div class="row"><span>Random Forest cross-check</span><span id="rf-note">R² 0.818, more accurate, not linear</span></div>
+      </div>
+
+      <div class="footnote">
+        <b>Reading the dial —</b> this gauge runs the same linear-regression weights the model was trained with, computed live in your browser as you move the controls. The census data this model learned from top-codes values at <b>$500,001</b>, so estimates near or above that ceiling are extrapolation, not certainty.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// Coefficients from the trained scikit-learn LinearRegression model (see model_export.json)
+const MODEL = {
+  intercept: -2299273.762103598,
+  coef: {
+    longitude: -27108.74632118083,
+    latitude: -25657.807542678205,
+    housing_median_age: 1081.3642062730237,
+    total_rooms: -6.322145519677829,
+    total_bedrooms: 103.00404177118462,
+    population: -36.40975136878939,
+    households: 43.14272491810787,
+    median_income: 39277.083019712954,
+    ocean_INLAND: -39240.21777847483,
+    ocean_ISLAND: 213653.3744628215,
+    ocean_NEAR_BAY: -6232.41687623665,
+    ocean_NEAR_OCEAN: 3166.4771282393644
+  },
+  mae: 50413.43330810025
+};
+
+const LOCATIONS = {
+  sf:       { lat: 37.77, lon: -122.42, cat: 'NEAR_BAY' },
+  la:       { lat: 34.05, lon: -118.24, cat: 'BASE' },       // <1H OCEAN is the reference category
+  sd:       { lat: 32.72, lon: -117.16, cat: 'NEAR_OCEAN' },
+  sac:      { lat: 38.58, lon: -121.49, cat: 'INLAND' },
+  fresno:   { lat: 36.75, lon: -119.77, cat: 'INLAND' },
+  catalina: { lat: 33.39, lon: -118.42, cat: 'ISLAND' }
+};
+
+const $ = (id) => document.getElementById(id);
+const fmt = (n) => '$' + Math.round(n).toLocaleString('en-US');
+
+const ticksGroup = $('ticks');
+const GAUGE_MIN = 0, GAUGE_MAX = 600000;
+for (let v = GAUGE_MIN; v <= GAUGE_MAX; v += 100000) {
+  const frac = (v - GAUGE_MIN) / (GAUGE_MAX - GAUGE_MIN);
+  const angle = -180 + frac * 180; // -180deg (left) to 0deg (right), pointing up
+  const rad = angle * Math.PI / 180;
+  const cx = 170, cy = 170, r1 = 140, r2 = 130;
+  const x1 = cx + r1 * Math.cos(rad), y1 = cy + r1 * Math.sin(rad);
+  const x2 = cx + r2 * Math.cos(rad), y2 = cy + r2 * Math.sin(rad);
+  const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+  line.setAttribute('x1', x1); line.setAttribute('y1', y1);
+  line.setAttribute('x2', x2); line.setAttribute('y2', y2);
+  line.setAttribute('stroke', 'rgba(220,230,240,0.5)');
+  line.setAttribute('stroke-width', '1.5');
+  ticksGroup.appendChild(line);
+
+  const lx = cx + (r1+14) * Math.cos(rad), ly = cy + (r1+14) * Math.sin(rad);
+  const text = document.createElementNS('http://www.w3.org/2000/svg','text');
+  text.setAttribute('x', lx); text.setAttribute('y', ly);
+  text.setAttribute('fill', 'rgba(220,230,240,0.55)');
+  text.setAttribute('font-size', '9');
+  text.setAttribute('font-family', 'IBM Plex Mono, monospace');
+  text.setAttribute('text-anchor', 'middle');
+  text.textContent = (v/1000) + 'k';
+  ticksGroup.appendChild(text);
+}
+
+function recompute(){
+  const loc = LOCATIONS[$('location').value];
+  const income = parseFloat($('income').value);
+  const age = parseFloat($('age').value);
+  const households = parseFloat($('households').value);
+  const roomsPer = parseFloat($('rooms').value);
+  const bedroomsPer = parseFloat($('bedrooms').value);
+  const population = parseFloat($('population').value);
+
+  // model was trained on totals, not per-household averages
+  const totalRooms = roomsPer * households;
+  const totalBedrooms = bedroomsPer * households;
+
+  $('income-val').textContent = fmt(income) + ' / yr';
+  $('age-val').textContent = age + ' yrs';
+  $('households-val').textContent = Math.round(households).toLocaleString('en-US');
+  $('rooms-val').textContent = roomsPer.toFixed(1);
+  $('bedrooms-val').textContent = bedroomsPer.toFixed(2);
+  $('population-val').textContent = Math.round(population).toLocaleString('en-US');
+
+  let oceanTerm = 0;
+  if (loc.cat === 'INLAND') oceanTerm = MODEL.coef.ocean_INLAND;
+  else if (loc.cat === 'ISLAND') oceanTerm = MODEL.coef.ocean_ISLAND;
+  else if (loc.cat === 'NEAR_BAY') oceanTerm = MODEL.coef.ocean_NEAR_BAY;
+  else if (loc.cat === 'NEAR_OCEAN') oceanTerm = MODEL.coef.ocean_NEAR_OCEAN;
+
+  let pred = MODEL.intercept
+    + MODEL.coef.longitude * loc.lon
+    + MODEL.coef.latitude * loc.lat
+    + MODEL.coef.housing_median_age * age
+    + MODEL.coef.total_rooms * totalRooms
+    + MODEL.coef.total_bedrooms * totalBedrooms
+    + MODEL.coef.population * population
+    + MODEL.coef.households * households
+    + MODEL.coef.median_income * (income / 10000)
+    + oceanTerm;
+
+  pred = Math.max(pred, 15000); // dataset floor
+
+  $('price-out').textContent = fmt(pred);
+  $('interval-out').textContent = fmt(Math.max(pred - MODEL.mae, 0)) + ' – ' + fmt(pred + MODEL.mae);
+
+  const frac = Math.min(Math.max((pred - GAUGE_MIN) / (GAUGE_MAX - GAUGE_MIN), 0), 1);
+  const angle = -90 + frac * 180; // needle: -90 (left) to +90 (right), 0 = straight up
+  $('needle').setAttribute('transform', `rotate(${angle} 170 170)`);
+}
+
+['location','income','age','households','rooms','bedrooms','population'].forEach(id => {
+  $(id).addEventListener('input', recompute);
+});
+recompute();
+</script>
+</body>
+</html>

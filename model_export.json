@@ -1,0 +1,98 @@
+{
+  "n_rows": 20433,
+  "feature_order": [
+    "longitude",
+    "latitude",
+    "housing_median_age",
+    "total_rooms",
+    "total_bedrooms",
+    "population",
+    "households",
+    "median_income",
+    "ocean_proximity_INLAND",
+    "ocean_proximity_ISLAND",
+    "ocean_proximity_NEAR BAY",
+    "ocean_proximity_NEAR OCEAN"
+  ],
+  "feature_ranges": {
+    "longitude": [
+      -124.35,
+      -114.31,
+      -119.57068859198355
+    ],
+    "latitude": [
+      32.54,
+      41.95,
+      35.633221259726916
+    ],
+    "housing_median_age": [
+      1.0,
+      52.0,
+      28.633093525179856
+    ],
+    "total_rooms": [
+      2.0,
+      39320.0,
+      2636.5042333480155
+    ],
+    "total_bedrooms": [
+      1.0,
+      6445.0,
+      537.8705525375618
+    ],
+    "population": [
+      3.0,
+      35682.0,
+      1424.9469485635982
+    ],
+    "households": [
+      1.0,
+      6082.0,
+      499.43346547251997
+    ],
+    "median_income": [
+      0.4999,
+      15.0001,
+      3.8711616013311803
+    ]
+  },
+  "linear_model": {
+    "intercept": -2299273.762103598,
+    "coefficients": {
+      "longitude": -27108.74632118083,
+      "latitude": -25657.807542678205,
+      "housing_median_age": 1081.3642062730237,
+      "total_rooms": -6.322145519677829,
+      "total_bedrooms": 103.00404177118462,
+      "population": -36.40975136878939,
+      "households": 43.14272491810787,
+      "median_income": 39277.083019712954,
+      "ocean_proximity_INLAND": -39240.21777847483,
+      "ocean_proximity_ISLAND": 213653.3744628215,
+      "ocean_proximity_NEAR BAY": -6232.41687623665,
+      "ocean_proximity_NEAR OCEAN": 3166.4771282393644
+    },
+    "mae": 50413.43330810025,
+    "rmse": 69297.71669113041,
+    "r2": 0.6488402154431983
+  },
+  "random_forest": {
+    "mae": 32874.3188812339,
+    "rmse": 49947.29157851293,
+    "r2": 0.8175722884355509,
+    "feature_importances": {
+      "longitude": 0.10742294347665411,
+      "latitude": 0.10246833806257732,
+      "housing_median_age": 0.04651704433186567,
+      "total_rooms": 0.019149834658778786,
+      "total_bedrooms": 0.01822578036586166,
+      "population": 0.027277621939858297,
+      "households": 0.015412265350803022,
+      "median_income": 0.5035126804794854,
+      "ocean_proximity_INLAND": 0.15014664161122754,
+      "ocean_proximity_ISLAND": 0.0003813727983027304,
+      "ocean_proximity_NEAR BAY": 0.0010822982415911876,
+      "ocean_proximity_NEAR OCEAN": 0.008403178682994485
+    }
+  }
+}
